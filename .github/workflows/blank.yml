@@ -50,3 +50,5 @@ jobs:
             print("Directory contents:")
             for f in os.listdir():
                 print(f)
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
