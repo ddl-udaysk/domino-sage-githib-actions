@@ -1,4 +1,6 @@
 import boto3
+import os
+
 client = boto3.client('sagemaker')
 
 modelName = os.environ['MODELNAME']
