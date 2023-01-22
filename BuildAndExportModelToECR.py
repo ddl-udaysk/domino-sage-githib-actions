@@ -6,8 +6,8 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 user_api_key = "081dffe78b592de67767ec0b036ebb967608ab0a648f29be7be5ef538f6171ae"
-with open('setup.py') as f:
-    c = f.read()
+""" with open('setup.py') as f:
+    c = f.read() """
     
 modelName = "random-model-5.1"
 
