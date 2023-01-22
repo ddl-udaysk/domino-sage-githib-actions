@@ -4,11 +4,11 @@ import os
 client = boto3.client('sagemaker')
 
 modelName = os.environ['MODELNAME']
-instance_type = 'ml.t3.xlarge'
+instance_type = 'ml.t2.large'
 
 # create sagemaker model
 create_model_api_response = client.create_model(
-                                    ModelName='modelName',
+                                    ModelName=modelName,
                                     PrimaryContainer={
                                         'Image': '946429944765.dkr.ecr.us-west-2.amazonaws.com/bcs-sagemaker:'+ modelName,
                                         'ModelDataUrl': 's3://bcs-sagemaker-model-bucket/requirements_apps.txt',
