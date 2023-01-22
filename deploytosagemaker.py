@@ -14,7 +14,7 @@ create_model_api_response = client.create_model(
                                         'ModelDataUrl': 's3://path/to/model/artifact/model.tar.gz',
                                         'Environment': {}
                                     },
-                                    ExecutionRoleArn='ARN for AmazonSageMaker-ExecutionRole'
+                                    ExecutionRoleArn='arn:aws:iam::946429944765:role/bcs-sagemaker-model-deploy'
                             )
 
 print ("create_model API response", create_model_api_response)
