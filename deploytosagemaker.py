@@ -11,7 +11,7 @@ create_model_api_response = client.create_model(
                                     ModelName='modelName',
                                     PrimaryContainer={
                                         'Image': '946429944765.dkr.ecr.us-west-2.amazonaws.com/bcs-sagemaker:'+ modelName,
-                                        'ModelDataUrl': 's3://path/to/model/artifact/model.tar.gz',
+                                        'ModelDataUrl': 's3://bcs-sagemaker-model-bucket',
                                         'Environment': {}
                                     },
                                     ExecutionRoleArn='arn:aws:iam::946429944765:role/bcs-sagemaker-model-deploy'
