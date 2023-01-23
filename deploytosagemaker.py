@@ -6,8 +6,9 @@ client = boto3.client('sagemaker')
 modelName = os.environ['MODELNAME']
 instance_type = 'ml.t2.large'
 
-# create sagemaker model
-create_model_api_response = client.create_model(
+try:
+
+    create_model_api_response = client.create_model(
                                     ModelName=modelName,
                                     PrimaryContainer={
                                         'Image': '946429944765.dkr.ecr.us-west-2.amazonaws.com/bcs-sagemaker:'+ modelName,
@@ -15,7 +16,24 @@ create_model_api_response = client.create_model(
                                         'Environment': {}
                                     },
                                     ExecutionRoleArn='arn:aws:iam::946429944765:role/bcs-sagemaker-model-deploy'
-                            )
+                                    )
+    print ("create_model API response", create_model_api_response)
+except Exception:
+    print("model already present")
+    client.delete_model(ModelName=modelName)
+    client.delete_endpoint(EndpointName=modelName+  "endpoint" )
+    client.delete_endpoint_config(EndpointConfigName=modelName+  "endpoint-configuration")
+
+    create_model_api_response = client.create_model(
+                                    ModelName=modelName,
+                                    PrimaryContainer={
+                                    'Image': '946429944765.dkr.ecr.us-west-2.amazonaws.com/bcs-sagemaker:'+ modelName,
+                                    'ModelDataUrl': 's3://bcs-sagemaker-model-bucket/requirements_apps.txt',
+                                    'Environment': {} 
+                                    },
+                                    ExecutionRoleArn='arn:aws:iam::946429944765:role/bcs-sagemaker-model-deploy'
+                                    )
+
 
 print ("create_model API response", create_model_api_response)
 
