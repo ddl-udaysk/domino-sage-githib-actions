@@ -1,5 +1,7 @@
 import boto3
 import os
+import time
+
 
 client = boto3.client('sagemaker')
 
@@ -24,6 +26,7 @@ except Exception:
     client.delete_endpoint(EndpointName=modelName+  "endpoint" )
     client.delete_endpoint_config(EndpointConfigName=modelName+  "endpoint-configuration")
 
+    time.sleep(240)
     create_model_api_response = client.create_model(
                                     ModelName=modelName,
                                     PrimaryContainer={
