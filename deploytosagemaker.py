@@ -39,7 +39,9 @@ print ("create_model API response", create_model_api_response)
 
 endpointconfiguration = modelName + "endpoint-configuration"
 # create sagemaker endpoint config
-create_endpoint_config_api_response = client.create_endpoint_config(
+try:
+
+    create_endpoint_config_api_response = client.create_endpoint_config(
                                             EndpointConfigName=endpointconfiguration,
                                             ProductionVariants=[
                                                 {
@@ -51,13 +53,38 @@ create_endpoint_config_api_response = client.create_endpoint_config(
                                             ]
                                        )
 
-print ("create_endpoint_config API response", create_endpoint_config_api_response)
+    print ("create_endpoint_config API response", create_endpoint_config_api_response)
+    
+except Exception:
+    client.delete_endpoint(EndpointName=modelName+  "endpoint" )
+    client.delete_endpoint_config(EndpointConfigName=modelName+  "endpoint-configuration")
+    create_endpoint_config_api_response = client.create_endpoint_config(
+                                            EndpointConfigName=endpointconfiguration,
+                                            ProductionVariants=[
+                                                {
+                                                    'VariantName': 'AllTraffic',
+                                                    'ModelName': modelName,
+                                                    'InitialInstanceCount': 1,
+                                                    'InstanceType': instance_type
+                                                },
+                                            ]
+                                       )
+
 
 endpoint = modelName + "endpoint"
 # create sagemaker endpoint
-create_endpoint_api_response = client.create_endpoint(
+
+try:
+
+    create_endpoint_api_response = client.create_endpoint(
                                     EndpointName=endpoint,
                                     EndpointConfigName=endpointconfiguration,
-                                )
+                                    )
 
-print ("create_endpoint API response", create_endpoint_api_response)            
+    print ("create_endpoint API response", create_endpoint_api_response) 
+except Exception:
+    client.delete_endpoint(EndpointName=modelName+  "endpoint" )  
+    create_endpoint_api_response = client.create_endpoint(
+                                    EndpointName=endpoint,
+                                    EndpointConfigName=endpointconfiguration,
+                                    )         
