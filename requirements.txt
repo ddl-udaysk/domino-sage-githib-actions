@@ -3,3 +3,4 @@ wheel
 twine
 requests
 boto3
+chalice
