@@ -108,9 +108,9 @@ endPointStatus = ""
 
 while(createEndPointComplete is not True):
     endPointStatus = client.describe_endpoint(EndpointName=endpoint).get("EndpointStatus")
-    logging.info('number of retries: '+str(numberOfRetries)+', build model status: '+str(endPointStatus))
+    print('number of retries: '+str(numberOfRetries)+', build model status: '+str(endPointStatus))
     if(buildModelStatus == "EndpointStatus"):
-        logging.info('Sagemaker endpoint is created now...')
+        print('Sagemaker endpoint is created now...')
         createEndPointComplete = True
         break
     time.sleep(60) #sleep for 60 seconds before checking endpoint status again
