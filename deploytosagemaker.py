@@ -93,10 +93,23 @@ try:
                                     )
 
     print ("create_endpoint API response", create_endpoint_api_response) 
+
 except Exception:
     client.delete_endpoint(EndpointName=modelName+  "endpoint" )  
     time.sleep(60)
     create_endpoint_api_response = client.create_endpoint(
                                     EndpointName=endpoint,
                                     EndpointConfigName=endpointconfiguration,
-                                    )         
+                                    )  
+    
+createEndPointComplete = False
+numberOfRetries = 0
+
+	while(createEndPointComplete is not True):
+		logging.info('number of retries: '+str(numberOfRetries)+', build model status: '+str(endPointStatus))
+		endPointStatus = client.describe_endpoint(EndpointName=endpoint).get("EndpointStatus")
+		if(buildModelStatus == "EndpointStatus"):
+			logging.info('Sagemaker endpoint is created now...')
+			createEndPointComplete = True
+			break
+		time.sleep(60) #sleep for 60 seconds before checking endpoint status again
