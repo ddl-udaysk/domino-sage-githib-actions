@@ -1,8 +1,9 @@
 import boto3
 import os
 import time
+import logging
 
-
+logging.basicConfig(level=logging.INFO)
 client = boto3.client('sagemaker')
 
 modelName = os.environ['MODELNAME']
@@ -24,7 +25,7 @@ except Exception:
     print("model already present")
     t = time.localtime()
     current_time = time.strftime("%H:%M:%S", t)
-    print(current_time)
+    logging.info(current_time)
     client.delete_model(ModelName=modelName)
     #client.delete_endpoint(EndpointName=modelName+  "endpoint" )
     #client.delete_endpoint_config(EndpointConfigName=modelName+  "endpoint-configuration")
@@ -32,7 +33,7 @@ except Exception:
     time.sleep(240)
     t = time.localtime()
     current_time = time.strftime("%H:%M:%S", t)
-    print(current_time)
+    logging.info(current_time)
     create_model_api_response = client.create_model(
                                     ModelName=modelName,
                                     PrimaryContainer={
@@ -44,7 +45,7 @@ except Exception:
                                     )
 
 
-print ("create_model API response", create_model_api_response)
+logging.info("create_model API response", create_model_api_response)
 
 endpointconfiguration = modelName + "endpoint-configuration"
 # create sagemaker endpoint config
@@ -62,7 +63,7 @@ try:
                                             ]
                                        )
 
-    print ("create_endpoint_config API response", create_endpoint_config_api_response)
+    logging.info("create_endpoint_config API response", create_endpoint_config_api_response)
     
 except Exception:
     #client.delete_endpoint(EndpointName=modelName+  "endpoint" )
@@ -92,7 +93,7 @@ try:
                                     EndpointConfigName=endpointconfiguration,
                                     )
 
-    print ("create_endpoint API response", create_endpoint_api_response) 
+    logging.info("create_endpoint API response", create_endpoint_api_response) 
 
 except Exception:
     client.delete_endpoint(EndpointName=modelName+  "endpoint" )  
@@ -108,9 +109,9 @@ endPointStatus = ""
 
 while(createEndPointComplete is not True):
     endPointStatus = client.describe_endpoint(EndpointName=endpoint).get("EndpointStatus")
-    print('number of retries: '+str(numberOfRetries)+', build model status: '+str(endPointStatus))
+    logging.info('number of retries: '+str(numberOfRetries)+', build model status: '+str(endPointStatus))
     if(endPointStatus == "InService"):
-        print('Sagemaker endpoint is created now...')
+        logging.info('Sagemaker endpoint is created now...')
         createEndPointComplete = True
         break
     time.sleep(60) #sleep for 60 seconds before checking endpoint status again
