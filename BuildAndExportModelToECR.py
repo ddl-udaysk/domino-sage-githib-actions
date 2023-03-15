@@ -53,7 +53,7 @@ def exportModelToExternalRegistry(buildModelId, buildModelVersionNumber):
 	# ecrpassword = os.environ['ECRPASSWORD']
 	stream = os.popen('aws ecr get-login-password --region us-west-2')
 	ecrpassword = stream.read()
-	logging.info('ecr passcode '+ecrpassword)
+	#logging.info('ecr passcode '+ecrpassword)
 	json_data = js.dumps(
 			{
 				"registryUrl": "946429944765.dkr.ecr.us-west-2.amazonaws.com",
