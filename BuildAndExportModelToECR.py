@@ -7,6 +7,9 @@ import logging
 logging.basicConfig(level=logging.INFO)
 user_api_key = os.environ['USER_API_KEY']
 
+ECR = "946429944765.dkr.ecr.us-west-2.amazonaws.com"
+REPOSITORY = "bcs-sagemaker"
+
 """ with open('setup.py') as f:
     c = f.read() """
     
@@ -56,8 +59,8 @@ def exportModelToExternalRegistry(buildModelId, buildModelVersionNumber):
 	#logging.info('ecr passcode '+ecrpassword)
 	json_data = js.dumps(
 			{
-				"registryUrl": "946429944765.dkr.ecr.us-west-2.amazonaws.com",
-				"repository": "bcs-sagemaker", "tag": modelName,
+				"registryUrl": ECR,
+				"repository": REPOSITORY, "tag": modelName,
 				"username": "AWS",
 				"password": ecrpassword
 			}
