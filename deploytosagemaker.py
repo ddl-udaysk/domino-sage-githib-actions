@@ -114,6 +114,6 @@ while(createEndPointComplete is not True):
         createEndPointComplete = True
         break
     time.sleep(60) #sleep for 60 seconds before checking endpoint status again
-    if(numberOfRetries == 10):
-	break
     numberOfRetries += 1
+    if(numberOfRetries == 10):
+        break
