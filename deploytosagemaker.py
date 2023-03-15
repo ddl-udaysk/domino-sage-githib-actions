@@ -8,13 +8,14 @@ client = boto3.client('sagemaker')
 
 modelName = os.environ['MODELNAME']
 instance_type = 'ml.t2.large'
+ECR_REPO = '946429944765.dkr.ecr.us-west-2.amazonaws.com/bcs-sagemaker:'
 
 try:
 
     create_model_api_response = client.create_model(
                                     ModelName=modelName,
                                     PrimaryContainer={
-                                        'Image': '946429944765.dkr.ecr.us-west-2.amazonaws.com/bcs-sagemaker:'+ modelName,
+                                        'Image': ECR_REPO+ modelName,
                                         'ModelDataUrl': 's3://bcs-sagemaker-model-bucket/requirements_apps.tar.gz',
                                         'Environment': {}
                                     },
