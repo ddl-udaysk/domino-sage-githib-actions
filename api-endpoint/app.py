@@ -8,23 +8,16 @@ import csv
 
 app = Chalice(app_name='api-endpoint')
 runtime= boto3.client('runtime.sagemaker')
-ENDPOINT_NAME ="bcs-model-inference-1-endpoint"
+
+model_name = os.environ['MODELNAME']
+ENDPOINT_NAME = model_name+ "endpoint"
 
 @app.route('/')
 def index():
     return {'hello': 'world'}
 
 
-# The view function above will return {"hello": "world"}
-# whenever you make an HTTP GET request to '/'.
-#
-# Here are a few more examples:
-#
-# @app.route('/hello/{name}')
-# def hello_name(name):
-#    # '/hello/james' -> {"hello": "james"}
-#    return {'hello': name}
-#
+
 @app.route('/api', methods=['POST'] , content_types=['application/json'])
 def create_user():
 #     # This is the JSON body the user sent in their POST request.
